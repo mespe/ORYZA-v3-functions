@@ -2,34 +2,30 @@
 # M. Espe
 # March 2015
 
-get_POWER <- function(year, lat, long){
-  # This returns the NASA POWER records for a single year
-  # year = year of records requested
-  # lat = lat of site
-  # long = long of site
+getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
+                     me = 12, de = 31, ye)
+  # Access to NASA POWER Agroclimate database from R
+  # lat = latitude
+  # lon = longitude
+  # ms/ds/ys = month/day/year of start
+  # me/de/ye = month/day/year of end
+{
   require(RCurl)
-  url_base <- 'http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi?email=agro%40larc.nasa.gov&step=1'
-  url_request <- paste('&lat=', lat, 
-                       '&lon=', long,
-                       '&ms=3&ds=1&ys=', year,
-                       '&me=11&de=30&ye=', year,
-                       '&submit=Yes', 
-                       sep = "")
-  complete_url <- paste(url_base, url_request, sep = "")
-  tmp <- getURL(complete_url)
+  require(XML)
+  u = "http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi"
   
-  ll <- strsplit(tmp, '\n')
+  doc <- getForm(u, email = 'agroclim@larc.nasa.gov',
+                 step = 1, lat = lat, lon = lon, 
+                 ms = ms, ds = ds, ys = ys,
+                 me = me, de = de, ye = ye,
+                 submit = 'Yes')
   
-  idx <- which(grepl('@ WEYR', ll[[1]]))
-  n_row <- length(ll[[1]])
-  tmp_data <- matrix(NA, nrow = (n_row-idx), ncol = 11)
-  for(j in 1:(n_row-idx))
-    tmp_data[j,] <- strsplit(ll[[1]][(j+idx)], '[[:space:]]+')[[1]]
-  colnames(tmp_data) <- tolower(strsplit(ll[[1]][idx], '[[:space:]]+')[[1]])
-  tmp_data <- apply(tmp_data, 2, as.numeric)
-  tmp_data <- as.data.frame(tmp_data, stringsAsFactors = FALSE)
-  tmp_data['@'] <- NULL
-  tmp_data
+  head <- readLines(textConnection(doc), n = 15)
+  
+  idx <- which(grepl('@ WEYR', head))
+  tbl <- read.table(textConnection(doc), skip = idx)
+  colnames(tbl) <- tolower(strsplit(head[idx], ' +')[[1]][-1])
+  return(tbl)
 }
 
 POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
@@ -43,7 +39,7 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
   # long = longitude of site
   # prefix = file name prefix for ORYZA weather file (e.g. - uscaXX.XXX)
   
-  POWER_data <- get_POWER(year, lat, long)
+  POWER_data <- getPOWER(lat = lat, lon = long, ys = year, ye = year)
   
   tmp <- data.frame(
     station_nbr = station_nbr,
@@ -59,11 +55,13 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
   
   file_name <- paste0(prefix, station_nbr, '.', gsub('^[1|2]', '', year))
   ff <- file(file_name, 'w')
-  writeLines(paste(long, lat, 0,0,0), ff)
-  colnames(tmp) <- NULL
-  write.table(tmp, ff, row.names=FALSE, quote = FALSE, 
+  on.exit(close(ff))
+  writeLines('* NASA POWER climate data formatted for ORYZA(v3)', ff)
+  writeLines(paste(long, lat, 0,0,0, sep = ','), ff)
+  write.table(tmp, ff, row.names = FALSE, col.names = FALSE,
+              quote = FALSE, 
               eol = '\r\n', sep =",")
-  close(ff)
+  
   
 }
 
@@ -71,7 +69,7 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
 getwd()
 # Setwd to desired location where weather files should be saved
 setwd('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/AR weather files/')
-POWER2ORYZA(2012, 1, 35, -90, 'usar')
+POWER2ORYZA(year = 2012, station_nbr = 1, lat = 35,long =  -90, 'usar')
 
 # Easy to do multiple years at once with sapply
 sapply(2007:2014, function(x) POWER2ORYZA(x,1,34.4749,-91.4151,'usar'))
