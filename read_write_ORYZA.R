@@ -82,6 +82,7 @@ get_pred_mat <- function(file_path, DAP = TRUE){
   # Go to file locations
   old_dir <- getwd()
   if(old_dir != file_path) setwd(file_path)
+  on.exit(if(getwd() != old_dir) setwd(old_dir))
   
   tmp <- read_res(file_path)
   tmp <- split_res(tmp)
