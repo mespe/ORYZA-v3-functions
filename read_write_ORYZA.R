@@ -8,11 +8,11 @@
 
 # read in res.dat file
 
-read_res <- function(file_path){
+read_res <- function(){
   # Returns a single dataframe of the res.dat data
   # Uses cygwin shell commands to pre-process the res.dat file
-  # file_path = the file path to the directory containing the res.dat file
-  
+  # Will not work if current working directory does not contain the 
+  # res.dat file of if output is called differently  
   
   con <- pipe('cut -f 1,2 -s res.dat')
   on.exit(close(con))
