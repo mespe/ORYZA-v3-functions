@@ -1,1 +1,4 @@
 export(get_pred_mat)
+
+import(RCurl)
+import(jsonlite)

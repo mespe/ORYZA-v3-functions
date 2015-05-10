@@ -3,20 +3,20 @@
 ## M. Espe
 ## Apr 2015
 
-all_data <- read.csv('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/LA weather data/LSU RS data 2005-2014.csv')
+# all_data <- read.csv('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/LA weather data/LSU RS data 2005-2014.csv')
 
-all_data$DateTimeCollected <- as.Date(all_data$DateTimeCollected, '%m/%d/%Y')
-aa <- colnames(all_data)
-weird_char <- strsplit(aa[2], '')[[1]][15]
+# all_data$DateTimeCollected <- as.Date(all_data$DateTimeCollected, '%m/%d/%Y')
+# aa <- colnames(all_data)
+# weird_char <- strsplit(aa[2], '')[[1]][15]
 
-colnames(all_data) <- gsub(weird_char, '', colnames(all_data))
-colnames(all_data) <- gsub('\\.', '', tolower(colnames(all_data)))
-all_data$julian <- format(all_data$datetimecollected, '%j')
-all_data$year <- format(all_data$datetimecollected, '%Y')
+# colnames(all_data) <- gsub(weird_char, '', colnames(all_data))
+# colnames(all_data) <- gsub('\\.', '', tolower(colnames(all_data)))
+# all_data$julian <- format(all_data$datetimecollected, '%j')
+# all_data$year <- format(all_data$datetimecollected, '%Y')
 
-all_date_split <- split(all_data, all_data$year)
+# all_date_split <- split(all_data, all_data$year)
 
-(table(all_data$julian, all_data$year))
+# (table(all_data$julian, all_data$year))
 
 
 
@@ -32,15 +32,15 @@ getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
   require(RCurl)
   require(XML)
   u = "http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi"
-  
+
   doc <- getForm(u, email = 'agroclim@larc.nasa.gov',
-                 step = 1, lat = lat, lon = lon, 
+                 step = 1, lat = lat, lon = lon,
                  ms = ms, ds = ds, ys = ys,
                  me = me, de = de, ye = ye,
                  submit = 'Yes')
-  
+
   head <- readLines(textConnection(doc), n = 15)
-  
+
   idx <- which(grepl('@ WEYR', head))
   tbl <- read.table(textConnection(doc), skip = idx)
   colnames(tbl) <- tolower(strsplit(head[idx], ' +')[[1]][-1])
@@ -88,17 +88,17 @@ writeLines(c('* LSU data formatted for ORYZA(v3)',
              '* Missing values filled in from NASA POWER'), ff)
 writeLines(paste(long, lat, 0,0,0, sep = ','), ff)
 write.table(tmp, ff, row.names = FALSE, col.names = FALSE,
-            quote = FALSE, 
+            quote = FALSE,
             eol = '\r\n', sep =",")
 
 }
 
-x$julian
-pwr$weday
+ #x$julian
+ #pwr$weday
 createLSUweather <- function(lat, long, x, station_nbr){
-  PWR <- getPOWER(lat, long, ys = x$year, 
+  PWR <- getPOWER(lat, long, ys = x$year,
                   ye = x$year)
-  
+
   tmp <- data.frame(
     station_nbr = station_nbr,
     year = x$year,
