@@ -12,10 +12,6 @@ getAState_weather <- function(StartDate, EndDate,
   # Units = C or F
   # Station = Judd Hill, Wildy, ASU, or Sullivan
 
-  require(XML)
-  require(RCurl)
-  require(RHTMLForms)
-
   u = "http://weather.astate.edu/Reports.asp?"
 
   doc <- getForm(u,

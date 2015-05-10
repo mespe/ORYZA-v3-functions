@@ -125,7 +125,7 @@ get_pred_mat <- function(file_path, DAP = TRUE){
   if(old_dir != file_path) setwd(file_path)
   on.exit(if(getwd() != old_dir) setwd(old_dir))
 
-  tmp <- read_res(file_path)
+  tmp <- read_res()
   tmp <- split_res(tmp)
   tmp <- find_phen_pred(tmp, DAP=TRUE)
   yield <- read.table('op.dat', header = TRUE)$WRR14

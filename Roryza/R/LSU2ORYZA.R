@@ -18,35 +18,6 @@
 
 # (table(all_data$julian, all_data$year))
 
-
-
-## Include a copy of this function here - also in POWER2ORYZA
-getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
-                     me = 12, de = 31, ye)
-  # Access to NASA POWER Agroclimate database from R
-  # lat = latitude
-  # lon = longitude
-  # ms/ds/ys = month/day/year of start
-  # me/de/ye = month/day/year of end
-{
-  require(RCurl)
-  require(XML)
-  u = "http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi"
-
-  doc <- getForm(u, email = 'agroclim@larc.nasa.gov',
-                 step = 1, lat = lat, lon = lon,
-                 ms = ms, ds = ds, ys = ys,
-                 me = me, de = de, ye = ye,
-                 submit = 'Yes')
-
-  head <- readLines(textConnection(doc), n = 15)
-
-  idx <- which(grepl('@ WEYR', head))
-  tbl <- read.table(textConnection(doc), skip = idx)
-  colnames(tbl) <- tolower(strsplit(head[idx], ' +')[[1]][-1])
-  return(tbl)
-}
-
 LSU2ORYZA <- function(Crowley = TRUE, year, station_nbr, prefix = 'usla')
 {
 

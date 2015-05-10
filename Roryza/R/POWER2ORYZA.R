@@ -1,7 +1,27 @@
-# POWER to ORYZA
-# M. Espe
-# March 2015
+## POWER to ORYZA
+## M. Espe
+## March 2015
 
+##' Import data from NASA POWER into R
+##'
+##' This function imports data from the NASA POWER database
+##'     at http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi.
+##'
+##' @title getPOWER
+##'
+##' @param lat latitude
+##' @param lon longitude
+##' @param ms start month
+##' @param ds start day
+##' @param ys start year
+##' @param me end month
+##' @param de end day
+##' @param ye end year
+##'
+##' @return \code{data.frame} object with POWER data
+##'
+##' @author Matthew Espe
+##'
 getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
                      me = 12, de = 31, ye)
   # Access to NASA POWER Agroclimate database from R
@@ -10,8 +30,6 @@ getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
   # ms/ds/ys = month/day/year of start
   # me/de/ye = month/day/year of end
 {
-  require(RCurl)
-  require(XML)
   u = "http://power.larc.nasa.gov/cgi-bin/cgiwrap/solar/agro.cgi"
 
   doc <- getForm(u, email = 'agroclim@larc.nasa.gov',
@@ -28,16 +46,25 @@ getPOWER <- function(lat, lon, ms = 1, ds = 1, ys,
   return(tbl)
 }
 
+##' Retrieve and process NASA POWER data for Oryza(v3)
+##'
+##' This function retrieves data from NASA POWER for an
+##'     entire year, and processes it for use by Oryza(v3).
+##'     Weather file is saved to CURRENT WORKING DIRECTORY.
+##'
+##' @title POWER2ORYZA
+##' @param year year fo query
+##' @param station_nbr user defined value for the station number
+##'     to be used for the name of the Oryza weather file.
+##' @param lat latitude
+##' @param long longitude
+##' @param prefix prefix to be used for saved file
+##'
+##' @return NULL
+##'
+##' @author Matthew Espe
+##'
 POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
-  # This function retrieves the POWER data and
-  # processes it for direct use by ORYZA(v3)
-  # Weather file is saved to CURRENT WORKING DIRECTORY
-  #
-  # year = year of data requested
-  # station_nbr = user-defined value of station number
-  # lat = latitude of site
-  # long = longitude of site
-  # prefix = file name prefix for ORYZA weather file (e.g. - uscaXX.XXX)
 
   POWER_data <- getPOWER(lat = lat, lon = long, ys = year, ye = year)
 
@@ -49,7 +76,8 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
     tmin = POWER_data$tmin,
     tmax = POWER_data$tmax,
     # Uses converstion formula from NOAA
-    vappre = round((6.11 * 10^((7.5 * POWER_data$tdew)/(237.3 + POWER_data$tdew)))/10, 2),
+      vappre = round(
+          (6.11 * 10^((7.5 * POWER_data$tdew)/(237.3 + POWER_data$tdew)))/10, 2),
     wind = POWER_data$wind,
     precip = POWER_data$rain)
 

@@ -2,12 +2,23 @@
 # M. Espe
 # March 2015
 
-
+##' Edit Oryza file
+##'
+##' This function finds variables specified and re-writes them
+##'    with new values as specified. Multiple values can be changed at once.
+##'    Warning: This function alters the Oryza file.
+##'
+##' @title edit Oryza file
+##'
+##' @param variables name of variable in Oryza file
+##' @param values values to be written to
+##' @param file_path the file path of the file to be edited
+##'
+##' @return NULL
+##'
+##' @author Matthew Espe
+##'
 edit_ORYZA_file <- function(variables, values, file_path){
-  # Finds variables of interest and re-writes them with new values
-  # variables = vector of variable names
-  # values = new values, in order of variables
-  # file_path = location of file to be edited
 
   con <- file(file_path, open = 'rt')
   on.exit(close(con))
@@ -20,6 +31,7 @@ edit_ORYZA_file <- function(variables, values, file_path){
 
   writeLines(text = dd, file_path)
 }
+
 
 # Test
 # Re-write crop file
