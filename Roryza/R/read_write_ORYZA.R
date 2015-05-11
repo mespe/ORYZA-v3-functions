@@ -47,7 +47,7 @@ read_res <- function(){
 ##'
 split_res <- function(res_dataframe){
   aa <- res_dataframe$V2
-  idx <- c(0, which((aa - c(aa[-1], 1)) != -1))
+  idx <- c(0, which((aa - c(aa[-1], 1)) > 0))
 
   bb <- NA
   for(i in 2:length(idx)){bb[(i-1)] <- idx[i] - idx[(i-1)]}
