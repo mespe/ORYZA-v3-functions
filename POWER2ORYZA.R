@@ -66,10 +66,10 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
 }
 
 # Test functions
-getwd()
+#getwd()
 # Setwd to desired location where weather files should be saved
-setwd('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/AR weather files/')
-POWER2ORYZA(year = 2012, station_nbr = 1, lat = 35,long =  -90, 'usar')
+#setwd('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/AR weather files/')
+#POWER2ORYZA(year = 2012, station_nbr = 1, lat = 35,long =  -90, 'usar')
 
 # Easy to do multiple years at once with sapply
-sapply(2007:2014, function(x) POWER2ORYZA(x,1,34.4749,-91.4151,'usar'))
+#sapply(2007:2014, function(x) POWER2ORYZA(x,1,34.4749,-91.4151,'usar'))

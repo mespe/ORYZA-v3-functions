@@ -70,3 +70,6 @@ AState2ORYZA <- function(year, Station = 'Jude Hill', station_nbr,
 # Test function
 getwd()
 AState2ORYZA(year = 2013, station_nbr = 2, prefix = 'usar')
+
+
+
