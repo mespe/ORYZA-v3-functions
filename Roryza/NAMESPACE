@@ -1,0 +1,5 @@
+export(get_pred_mat)
+export(POWER2ORYZA)
+export(edit_ORYZA_file)
+
+import(RCurl, jsonlite, XML)
