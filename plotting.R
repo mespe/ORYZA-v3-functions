@@ -4,6 +4,8 @@
 
 src <- 'C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/temp/'
 
+src <- '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/'
+
 aa <- list.files(path = src,
            pattern = '*.[0-9]{3}', full.names = TRUE)
 
@@ -14,8 +16,8 @@ read_weather <- function(weather_file)
   tmp <- read.table(textConnection(ll), skip = length(idx)+1,
                     sep = ',',
                     stringsAsFactors = FALSE)
-  
-  colnames(tmp) <- c('stn', 'year', 'doy', 'srad', 
+
+  colnames(tmp) <- c('stn', 'year', 'doy', 'srad',
                      'tmin', 'tmax', 'vp', 'wind', 'prec' )
   return(tmp)
 }
@@ -47,7 +49,7 @@ get_coord <- function(weather_file)
                     nrow = 1,
                     sep = ',',
                     stringsAsFactors = FALSE)
-  
+
 }
 
 stut <- grep('usar1', mains)
