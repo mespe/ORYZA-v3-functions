@@ -26,9 +26,9 @@ read_res <- function(){
   ll <- readLines(con)
   breaks <- grepl('(^$)|(^[*])|^TIME|(^ $)|WARNING|Please', ll)
   tmp <- ll[!breaks]
-
+  
   tmp <- read.table(textConnection(tmp), sep = '\t')
-
+  
   return(tmp)
 }
 
@@ -45,8 +45,8 @@ read_res <- function(){
 ##'
 ##' @author Matthew Espe
 ##'
-split_res <- function(res_dataframe){
-  aa <- res_dataframe$V2
+split_res <- function(res_dataframe, var){
+  aa <- res_dataframe[var]
   idx <- c(0, which((aa - c(aa[-1], 1)) > 0))
 
   bb <- NA
@@ -126,7 +126,7 @@ get_pred_mat <- function(file_path, DAP = TRUE){
   on.exit(if(getwd() != old_dir) setwd(old_dir))
 
   tmp <- read_res()
-  tmp <- split_res(tmp)
+  tmp <- split_res(tmp, 'V2')
   tmp <- find_phen_pred(tmp, DAP=TRUE)
   yield <- read.table('op.dat', header = TRUE)$WRR14
 
