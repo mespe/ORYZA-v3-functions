@@ -1,0 +1,25 @@
+*---------------------------------------------------------*
+* Weather file for rice yield gap assessment in Uruguay using Oryza(v3)
+*      Project: Global Yield Gap Atlas (www.yieldgap.org)
+*      Country:
+*  Station_num:
+* Station_name:
+*         Year:
+*       Source:
+*       Author:
+*         Date:
+*    Longitude:
+*     Latitude:
+*    Elevation:
+*
+*  Columns:
+*  1. station number
+*  2. year
+*  3. day
+*  4. average insolation incident on a horizontal surface (kJ m-2 d-1)
+*  5. minimum temperature (degrees Celsius)
+*  6. maximum temperature (degrees Celsius)
+*  7. vapour pressure (kPa)
+*  8. mean wind speed (m s-1)
+*  9. precipitation (mm d-1)
+*---------------------------------------------------------*
