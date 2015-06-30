@@ -3,20 +3,24 @@
 ## M. Espe
 ## Apr 2015
 
-# all_data <- read.csv('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/LA weather data/LSU RS data 2005-2014.csv')
+all_data <- read.csv('C:/Users/mespe/Documents/CA-Variety-Trial-Dataset/ORYZA_files/LA weather data/source files/LSU SP data 2005-2014.csv')
 
-# all_data$DateTimeCollected <- as.Date(all_data$DateTimeCollected, '%m/%d/%Y')
-# aa <- colnames(all_data)
-# weird_char <- strsplit(aa[2], '')[[1]][15]
+all_data$DateTimeCollected <- as.Date(all_data$DateTimeCollected, '%m/%d/%Y')
+aa <- colnames(all_data)
+weird_char <- strsplit(aa[2], '')[[1]][15]
 
-# colnames(all_data) <- gsub(weird_char, '', colnames(all_data))
-# colnames(all_data) <- gsub('\\.', '', tolower(colnames(all_data)))
-# all_data$julian <- format(all_data$datetimecollected, '%j')
-# all_data$year <- format(all_data$datetimecollected, '%Y')
+colnames(all_data) <- gsub(weird_char, '', colnames(all_data))
+colnames(all_data) <- gsub('\\.', '', tolower(colnames(all_data)))
+all_data$julian <- format(all_data$datetimecollected, '%j')
+all_data$year <- format(all_data$datetimecollected, '%Y')
 
-# all_date_split <- split(all_data, all_data$year)
+# Change to oryza code for missing data
+all_data$minairtempf[all_data$minairtempf < -10] <- NA
+all_data$maxairtempf[all_data$maxairtempf > 130 | all_data$minairtempf < -10] <- NA
 
-# (table(all_data$julian, all_data$year))
+all_date_split <- split(all_data, all_data$year)
+
+(table(all_data$julian, all_data$year))
 
 LSU2ORYZA <- function(Crowley = TRUE, year, station_nbr, prefix = 'usla')
 {
@@ -51,6 +55,12 @@ LSU2ORYZA <- function(Crowley = TRUE, year, station_nbr, prefix = 'usla')
     vappre = round((6.11 * 10^((7.5 * pwr$tdew)/(237.3 + pwr$tdew)))/10, 2),
     wind = pwr$wind,
     precip = pwr$rain)
+  
+  # Replace NA with -99
+  tmp <- apply(tmp, 2, function(x) {
+    x[is.na(x)] <- -99
+    x
+  })
   
   file_name <- paste0(prefix, station_nbr, '.', gsub('^[1|2]', '', year))
   ff <- file(file_name, 'w')
