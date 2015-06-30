@@ -26,9 +26,9 @@ read_res <- function(){
   ll <- readLines(con)
   breaks <- grepl('(^$)|(^[*])|^TIME|(^ $)|WARNING|Please', ll)
   tmp <- ll[!breaks]
-  
+
   tmp <- read.table(textConnection(tmp), sep = '\t')
-  
+
   return(tmp)
 }
 
@@ -46,7 +46,7 @@ read_res <- function(){
 ##' @author Matthew Espe
 ##'
 split_res <- function(res_dataframe, var){
-  aa <- res_dataframe[var]
+  aa <- res_dataframe[[var]]
   idx <- c(0, which((aa - c(aa[-1], 1)) > 0))
 
   bb <- NA

@@ -1,5 +1,9 @@
 export(get_pred_mat)
 export(POWER2ORYZA)
 export(edit_ORYZA_file)
-
+export(getPOWER)
+export(get_current_oryza)
+export(write_weather)
+export(gen_header)
+export(write_header)
 import(RCurl, jsonlite, XML)
