@@ -2,20 +2,20 @@
 ## M. Espe
 ## June 2015
 
-## TESTS
-library(zoo)
-dataframe <- read.csv(file = '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/usar1.007',
-                      skip = 2, header = FALSE)
-line1 <- read.csv(file = '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/usar1.007',
-                nrow = 1, header = FALSE, comment = '*')
-
-dataframe <- dataframe[-c(30:34, 100:120),]
-dataframe$V4[20:22] <- NA
-dataframe$V5[80:95] <- NA
-str(dataframe)
-lat = line1[1,2]
-lon = line1[1,1]
-year = 2007
+# ## TESTS
+# library(zoo)
+# dataframe <- read.csv(file = '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/usar1.007',
+#                       skip = 2, header = FALSE)
+# line1 <- read.csv(file = '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/usar1.007',
+#                 nrow = 1, header = FALSE, comment = '*')
+# 
+# dataframe <- dataframe[-c(30:34, 100:120),]
+# dataframe$V4[20:22] <- NA
+# dataframe$V5[80:95] <- NA
+# str(dataframe)
+# lat = line1[1,2]
+# lon = line1[1,1]
+# year = 2007
 
 
 interp_weather <- function(dataframe, log_path)
@@ -49,7 +49,7 @@ interp_weather <- function(dataframe, log_path)
 
 write_weather_log <- function(file_path, dataframe, cont, i, in_col)
 {
-    ff <- file('~/missing_log', 'w')
+    ff <- file(file_path, 'w')
     on.exit(close(ff))
 
     writeLines(c('Spline interpolated weather data',
@@ -80,14 +80,18 @@ replace_wPOWER <- function(dataframe, lat, lon, year, log_path)
     ## Get corrected values between POWER and OBS
     idx <- match(dataframe[,3], pwr[,3], nomatch = 0)
 
-    new_vals <- sapply(seq_along(pwr), function(i){
+    new_vals <- as.data.frame(sapply(seq_along(pwr), function(i){
+      if(!all(is.na(dataframe[,i]))){
                            m <- lm(dataframe[,i] ~ pwr[idx,i])
                            round(coef(m)[1] + coef(m)[2] * pwr[,i], 2)
-                       })
+      }else{
+        pwr[,i]
+      }
+                        }))
 
     ## Check for continuous data
     cont <- dataframe[1, 3]:dataframe[nrow(dataframe), 3]
-    miss_days <- !(cont %in% dataframe$V3)
+    miss_days <- !(cont %in% dataframe[,3])
 
     ## Record the day in column missing
     in_col <- sapply(dataframe, function(x)
@@ -96,10 +100,15 @@ replace_wPOWER <- function(dataframe, lat, lon, year, log_path)
     ## If missing, fill in first by linear interpolation, then replace with
     ## Corrected pwr data
     if(any(miss_days)){
-        dataframe <- as.data.frame(lapply(dataframe, function(y)
+        dataframe <- as.data.frame(lapply(dataframe, function(y){
+          if(!all(is.na(y))){
             na.approx(
                 x = dataframe[,3],
-                object = y, xout = cont)))
+                object = y, xout = cont)
+            }else{
+              NA
+            }
+          }))
         dataframe[miss_days, c(4:9)] <- new_vals[cont[miss_days], c(4:9)]
     }
 
