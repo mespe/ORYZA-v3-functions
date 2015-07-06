@@ -13,3 +13,25 @@ heat_units <- function(tmin, tmax, tbase, topt, thigh)
        t_high = as.numeric(thigh))$ans
 
 }
+
+
+## Create R based function for comparison
+
+hu_slow <- function(tmin, tmax, tbase, topt, thigh)
+{
+  n <- length(tmin)  
+  ans <- rep(0, n)
+  
+  for(day in seq(length.out = n)){
+    for(hour in 1:24){
+      tmp <- 
+        ((tmax[day] + tmin[day])/2) + (tmax[day] - tmin[day]) * (cos(0.2618 * (hour - 14)) / 2)  
+      print(tmp)
+      if(tmp > tbase & tmp <= topt)
+        ans[day] = ans[day] + (tmp - tbase)/24
+      if(tmp > topt & tmp < thigh)
+        ans[day] = ans[day] + (topt - (tmp - topt) * ((topt - tbase)/(thigh - topt)))/24
+    }
+  }
+  return(ans) 
+}
