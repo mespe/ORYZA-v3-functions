@@ -8,6 +8,6 @@ export(write_weather)
 export(write_header)
 export(heat_units)
 
-useDynLib(hu)
+useDynLib(Roryza)
 
 #import(RCurl, jsonlite, XML)
