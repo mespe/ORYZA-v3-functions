@@ -81,15 +81,15 @@ POWER2ORYZA <- function(year, station_nbr, lat, long, prefix){
     wind = POWER_data$wind,
     precip = POWER_data$rain)
 
-  file_name <- paste0(prefix, station_nbr, '.', gsub('^[1|2]', '', year))
-  ff <- file(file_name, 'w')
-  on.exit(close(ff))
-  writeLines('* NASA POWER climate data formatted for ORYZA(v3)', ff)
-  writeLines(paste(long, lat, 0,0,0, sep = ','), ff)
-  write.table(tmp, ff, row.names = FALSE, col.names = FALSE,
-              quote = FALSE,
-              eol = '\r\n', sep =",")
-
+#   file_name <- paste0(prefix, station_nbr, '.', gsub('^[1|2]', '', year))
+#   ff <- file(file_name, 'w')
+#   on.exit(close(ff))
+#   writeLines('* NASA POWER climate data formatted for ORYZA(v3)', ff)
+#   writeLines(paste(long, lat, 0,0,0, sep = ','), ff)
+#   write.table(tmp, ff, row.names = FALSE, col.names = FALSE,
+#               quote = FALSE,
+#               eol = '\r\n', sep =",")
+return(tmp)
 
 }
 

@@ -33,13 +33,13 @@ getCIMIS <- function(api_key, ...,
   fromJSON(doc, flatten = TRUE)$Data$Providers$Records[[1]]
 }
 
-CIMIS2Oryza <- function(api_key, year, station_nbr)
+CIMIS2Oryza <- function(api_key, year, station_nbr, ...)
 {
   tmp <- getCIMIS(api_key, 
                   start = paste0(year, '-01-01'), 
                   end = paste0(year, '-12-31'), 
                   unitOfMeasure = 'M',
-                  targets = station_nbr)
+                  targets = station_nbr, ...)
   
   idx <- grep('[.]Qc$|[.]Unit$', colnames(tmp))
   tmp <- tmp[,-idx]

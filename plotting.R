@@ -37,7 +37,7 @@ mains <- gsub(src, '',
               names(tmp))
 
 for(i in seq_along(tmp)){
-  plot(tmp[[i]]$tmin, type = 'l', ylim=c(0,60),
+  plot(tmp[[i]]$tmax, type = 'l', ylim=c(10,50),
        main = paste(i, ":", mains[i]))
 }
 
