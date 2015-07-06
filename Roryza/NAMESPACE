@@ -4,6 +4,10 @@ export(edit_ORYZA_file)
 export(getPOWER)
 export(get_current_oryza)
 export(write_weather)
-export(gen_header)
+#export(gen_header)
 export(write_header)
-import(RCurl, jsonlite, XML)
+export(heat_units)
+
+useDynLib(hu)
+
+#import(RCurl, jsonlite, XML)

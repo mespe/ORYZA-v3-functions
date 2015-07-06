@@ -17,6 +17,7 @@
 # lon = line1[1,1]
 # year = 2007
 
+
 interp_weather <- function(dataframe, log_path)
 {
     ## Check for continuous data
