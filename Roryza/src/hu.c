@@ -18,7 +18,7 @@ heat_units(int *n, double *t_min, double *t_max, double *ans,
     // Loop over hours
     for(h = 0; h < 24; h++) {
       // Calculate hourly heat units
-      tmp = ((t_max[i] + t_min[i])/2) + ((t_max[i] - t_min[i]) * cos(0.2168 * (h - 14)) / 2);
+      tmp = ((t_max[i] + t_min[i])/2) + ((t_max[i] - t_min[i]) * cos(0.2168 * ((h + 1) - 14)) / 2);
       // If statements for accumulation
       if(tmp <= t_base[0] || tmp >= t_high[0]){
 	d_hu = d_hu + 0;
