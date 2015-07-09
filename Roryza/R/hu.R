@@ -26,7 +26,6 @@ hu_slow <- function(tmin, tmax, tbase, topt, thigh)
     for(hour in 1:24){
       tmp <- 
         ((tmax[day] + tmin[day])/2) + (tmax[day] - tmin[day]) * (cos(0.2618 * (hour - 14)) / 2)  
-      print(tmp)
       if(tmp > tbase & tmp <= topt)
         ans[day] = ans[day] + (tmp - tbase)/24
       if(tmp > topt & tmp < thigh)
