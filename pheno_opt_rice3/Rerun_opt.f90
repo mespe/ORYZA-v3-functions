@@ -10,9 +10,9 @@ REAL TBDm, TODm, TMDm, SPSPm, aEPSPm, MOPPm, PPSEm, SHCKDm
 REAL TBDs, TODs, TMDs, SPSPs, aEPSPs, MOPPs, PPSEs, SHCKDs
 INTEGER ERROR
 
-!-----Input min, max and step	
-!for no PSP fill in PPSEn=0.0; PPSEm=0.0; PPSEs=0.05	
-!and for clarity fill in SPSPn=0.0; SPSPm=0.1; SPSPs=1.0	
+!-----Input min, max and step
+!for no PSP fill in PPSEn=0.0; PPSEm=0.0; PPSEs=0.05
+!and for clarity fill in SPSPn=0.0; SPSPm=0.1; SPSPs=1.0
 !	TBDn=-10.0; TBDm=8.0; TBDs=1.
 !	TODn=16.0; TODm=36.1; TODs=1.
 !	TMDn=100.0; TMDm=1000.1; TMDs=400.0
@@ -20,8 +20,8 @@ INTEGER ERROR
 !	MOPPn=10.0; MOPPm=10.1; MOPPs=1.
 !	PPSEn=0.0; PPSEm=0.0; PPSEs=0.05
 !	SHCKDn=-0.2; SHCKDm=1.0; SHCKDs=0.2
-!-----End of input	
-!with PSP, big step, no transplanting	
+!-----End of input
+!with PSP, big step, no transplanting
 	TBDn=0.0; TBDm=20.0; TBDs=2.
 	TODn=22.0; TODm=40.1; TODs=2.
 	TMDn=42.0; TMDm=1000.1; TMDs=479.0
@@ -29,7 +29,7 @@ INTEGER ERROR
 	MOPPn=11.0; MOPPm=13.1; MOPPs=1.
 	PPSEn=0.1; PPSEm=0.4; PPSEs=0.1
 	SHCKDn=0.; SHCKDm=0.01; SHCKDs=0.4
-!without PSP, small step, no transplanting	
+!without PSP, small step, no transplanting
 !	TBDn=0.0; TBDm=20.0; TBDs=1.
 !	TODn=22.0; TODm=40.1; TODs=1.
 !	TMDn=42.0; TMDm=1000.1; TMDs=479.0
@@ -37,15 +37,15 @@ INTEGER ERROR
 !	MOPPn=11.0; MOPPm=11.1; MOPPs=2.
 !	PPSEn=0.0; PPSEm=0.01; PPSEs=0.4
 !	SHCKDn=0.; SHCKDm=0.01; SHCKDs=0.4
-!-----End of input	
-! Short example run	
-	TBDn=0.0; TBDm=16.1; TBDs=8.
-	TODn=30.0; TODm=40.1; TODs=5.
-	TMDn=100.0; TMDm=900.1; TMDs=400.0
-	SPSPn=0.0; SPSPm=0.1; SPSPs=1.0
-	MOPPn=10.0; MOPPm=10.1; MOPPs=1.
-	PPSEn=0.0; PPSEm=0.0; PPSEs=0.05
-	SHCKDn=0.0; SHCKDm=0.81; SHCKDs=0.4
+!-----End of input
+! Short example run
+	! TBDn=0.0; TBDm=16.1; TBDs=8.
+	! TODn=30.0; TODm=40.1; TODs=5.
+	! TMDn=100.0; TMDm=900.1; TMDs=400.0
+	! SPSPn=0.0; SPSPm=0.1; SPSPs=1.0
+	! MOPPn=10.0; MOPPm=10.1; MOPPs=1.
+	! PPSEn=0.0; PPSEm=0.0; PPSEs=0.05
+	! SHCKDn=0.0; SHCKDm=0.81; SHCKDs=0.4
 !ORYZA2000 default
 !	TBDn=8.0; TBDm=8.1; TBDs=8.
 !	TODn=30.0; TODm=30.1; TODs=5.
@@ -61,7 +61,7 @@ ALLOCATE (TOD_set( INT((TODm-TODn)/TODs)+1 ))
 ALLOCATE (TMD_set( INT((TMDm-TMDn)/TMDs)+1 ))
 ALLOCATE (SPSP_set( INT((SPSPm-SPSPn)/SPSPs)+1 ))
 ALLOCATE (MOPP_set( INT((MOPPm-MOPPn)/MOPPs)+1 ))
-ALLOCATE (PPSE_set( INT((PPSEm-PPSEn)/PPSEs)+1 ))	
+ALLOCATE (PPSE_set( INT((PPSEm-PPSEn)/PPSEs)+1 ))
 ALLOCATE (SHCKD_set( INT((SHCKDm-SHCKDn)/SHCKDs)+1 ))
 
 	DO I=1, INT((TBDm-TBDn)/TBDs)+1, 1
@@ -91,16 +91,16 @@ OPEN (13, FILE=Pheno_in)
 
 EXP_NUM=0
 DO WHILE (.TRUE.)
-100	  READ (13,"(A80)",IOSTAT=ERROR) comment        
+100	  READ (13,"(A80)",IOSTAT=ERROR) comment
 
 	  IF(ERROR/=0) GOTO 102
 
-	  IF (comment(1:1)=="*") THEN 
+	  IF (comment(1:1)=="*") THEN
 	  	GOTO 100
-	  ELSE				
+	  ELSE
 		BACKSPACE (13)
-        READ(13,*) 	
-		EXP_NUM=EXP_NUM+1			
+        READ(13,*)
+		EXP_NUM=EXP_NUM+1
 		GOTO 101
 	  END IF
 101 CONTINUE
@@ -151,7 +151,7 @@ ALLOCATE (SPSP_set( INT((SPSPm-SPSPn)/SPSPs)+1 ))
 ALLOCATE (MOPP_set( INT((MOPPm-MOPPn)/MOPPs)+1 ))
 ALLOCATE (PPSE_set( INT((PPSEm-PPSEn)/PPSEs)+1 ))
 ALLOCATE (SHCKD_set( INT((SHCKDm-SHCKDn)/SHCKDs)+1 ))
-	
+
 	DO I=1, INT((TBDm-TBDn)/TBDs)+1, 1
 		TBD_set(I)= TBDn+TBDs*(I-1)
 	END DO
@@ -181,16 +181,16 @@ ALLOCATE (SHCKD_set( INT((SHCKDm-SHCKDn)/SHCKDs)+1 ))
 OPEN (13, FILE=Pheno_in)
 EXP_NUM=0
 DO WHILE (.TRUE.)
-103	  READ (13,"(A80)",IOSTAT=ERROR) comment        
+103	  READ (13,"(A80)",IOSTAT=ERROR) comment
 
 	  IF(ERROR/=0) GOTO 105
 
-	  IF (comment(1:1)=="*") THEN 
+	  IF (comment(1:1)=="*") THEN
 	  	GOTO 103
-	  ELSE				
+	  ELSE
 		BACKSPACE (13)
-        READ(13,*) 	
-		EXP_NUM=EXP_NUM+1			
+        READ(13,*)
+		EXP_NUM=EXP_NUM+1
 		GOTO 104
 	  END IF
 104 CONTINUE
@@ -238,7 +238,7 @@ ALLOCATE (TOD_set( INT((TODm-TODn)/TODs)+1 ))
 ALLOCATE (TMD_set( INT((TMDm-TMDn)/TMDs)+1 ))
 ALLOCATE (SPSP_set( INT((SPSPm-SPSPn)/SPSPs)+1 ))
 ALLOCATE (MOPP_set( INT((MOPPm-MOPPn)/MOPPs)+1 ))
-ALLOCATE (PPSE_set( INT((PPSEm-PPSEn)/PPSEs)+1 ))	
+ALLOCATE (PPSE_set( INT((PPSEm-PPSEn)/PPSEs)+1 ))
 ALLOCATE (SHCKD_set( INT((SHCKDm-SHCKDn)/SHCKDs)+1 ))
 ALLOCATE (TM_CORR_set (INT((TM_CORRm-TM_CORRn)/TM_CORRs)+1) )
 
@@ -273,16 +273,16 @@ OPEN (13, FILE=Pheno_in)
 
 EXP_NUM=0
 DO WHILE (.TRUE.)
-100	  READ (13,"(A80)",IOSTAT=ERROR) comment        
+100	  READ (13,"(A80)",IOSTAT=ERROR) comment
 
 	  IF(ERROR/=0) GOTO 102
 
-	  IF (comment(1:1)=="*") THEN 
+	  IF (comment(1:1)=="*") THEN
 	  	GOTO 100
-	  ELSE				
+	  ELSE
 		BACKSPACE (13)
-        READ(13,*) 	
-		EXP_NUM=EXP_NUM+1			
+        READ(13,*)
+		EXP_NUM=EXP_NUM+1
 		GOTO 101
 	  END IF
 101 CONTINUE
@@ -350,7 +350,7 @@ ALLOCATE (TSENNGHT_set( INT((TSENNGHTm-TSENNGHTn)/TSENNGHTs)+1 ))
 ALLOCATE (TSENPSP_set( INT((TSENPSPm-TSENPSPn)/TSENPSPs)+1 ))
 ALLOCATE (TSENPSPNGHT_set( INT((TSENPSPNGHTm-TSENPSPNGHTn)/TSENPSPNGHTs)+1 ))
 ALLOCATE (SHCKD_set( INT((SHCKDm-SHCKDn)/SHCKDs)+1 ))
-	
+
 	DO I=1, INT((TBDm-TBDn)/TBDs)+1, 1
 		TBD_set(I)= TBDn+TBDs*(I-1)
 	END DO
@@ -393,16 +393,16 @@ OPEN (13, FILE=Pheno_in)
 
 EXP_NUM=0
 DO WHILE (.TRUE.)
-106	  READ (13,"(A80)",IOSTAT=ERROR) comment        
+106	  READ (13,"(A80)",IOSTAT=ERROR) comment
 
 	  IF(ERROR/=0) GOTO 108
 
-	  IF (comment(1:1)=="*") THEN 
+	  IF (comment(1:1)=="*") THEN
 	  	GOTO 106
-	  ELSE				
+	  ELSE
 		BACKSPACE (13)
-        READ(13,*) 	
-		EXP_NUM=EXP_NUM+1			
+        READ(13,*)
+		EXP_NUM=EXP_NUM+1
 		GOTO 107
 	  END IF
 107 CONTINUE
@@ -410,10 +410,10 @@ END DO
 108 CONTINUE
 CLOSE (13)
 
-! in case of PSP run 
+! in case of PSP run
 OUTPUT_NUM=EXP_NUM*SIZE(TBD_set)*SIZE(TOD_set)*SIZE(TODNGHT_set)*SIZE(TMD_set)*SIZE(SPSP_set)*SIZE(MOPP_set)*SIZE(PPSE_set) &
 *SIZE(TSEN_set)*SIZE(TSENNGHT_set)*SIZE(TSENPSP_set)*SIZE(TSENPSPNGHT_set)*SIZE(SHCKD_set)
-! in case of NOPSP run 
+! in case of NOPSP run
 !OUTPUT_NUM=EXP_NUM*SIZE(TBD_set)*SIZE(TOD_set)*SIZE(TODNGHT_set)*SIZE(TMD_set)*SIZE(TSEN_set)*SIZE(TSENNGHT_set)*SIZE(SHCKD_set)
 
 !write (*,*) output_num, exp_num
