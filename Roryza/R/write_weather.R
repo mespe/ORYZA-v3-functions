@@ -11,6 +11,8 @@
 ##' @param folder the folder where files will be saved
 ##' @param prefix the prefix for the Oryza weather file
 ##' @param dataframe The dataframe of weather data to be written to Oryza
+##'     The first column should be the station number.
+##'     The second column should be the year.
 ##' @return the complete file path for the weather file, formatted for Oryza
 ##' @author Matthew Espe
 gen_path <- function(folder, prefix, dataframe)
@@ -33,7 +35,7 @@ gen_path <- function(folder, prefix, dataframe)
 ##' @param long longitude in decimal degrees
 ##' @param lat latitude in decimal degrees
 ##' @param ele elevation
-##' @param header A header to include at the top of the file, if any
+##' @param header character string: A header to include at the top of the file, if any
 ##' @param file_path Complete file path to location where file will be saved
 ##'     including the file name.  This can be generated
 ##' @return null
@@ -61,10 +63,13 @@ write_weather <- function(weather_data,
 ##'     the lines in the first __ lines of the header template.
 ##' @return a character vector with values filled in
 ##' @author Matthew Espe
-write_header <- function(...)
+write_header <- function(
+  template_file = '~/oryza_functions/Roryza/R/header_template.txt',
+  ...)
+  
     {
     dots <- list(...)
-    header_lines <- readLines('~/oryza_functions/Roryza/R/header_template.txt')
+    header_lines <- readLines(template_file)
 
     i <- sapply(seq_along(dots), function(i)
         grep(names(dots)[i], header_lines, ignore.case = TRUE)[1])
