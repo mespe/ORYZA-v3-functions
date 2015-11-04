@@ -1,5 +1,5 @@
 *---------------------------------------------------------*
-* Weather file for rice yield gap assessment in Uruguay using Oryza(v3)
+* Weather file for rice yield gap assessment using Oryza(v3)
 *      Project: Global Yield Gap Atlas (www.yieldgap.org)
 *      Country:
 *  Station_num:

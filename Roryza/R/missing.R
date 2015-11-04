@@ -1,4 +1,4 @@
-## Algorithms for dealing wit missing data in weather files
+## Algorithms for dealing with missing data in weather files
 ## M. Espe
 ## June 2015
 
@@ -8,7 +8,7 @@
 #                       skip = 2, header = FALSE)
 # line1 <- read.csv(file = '~/Dropbox/UNL_ORYZA/USA_Rice/USA_weather/usar1.007',
 #                 nrow = 1, header = FALSE, comment = '*')
-# 
+#
 # dataframe <- dataframe[-c(30:34, 100:120),]
 # dataframe$V4[20:22] <- NA
 # dataframe$V5[80:95] <- NA

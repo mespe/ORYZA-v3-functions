@@ -6,7 +6,7 @@ library(RCurl)
 library(jsonlite)
 
 ## Key is stored separate and not shared
-#api_key <- readLines('~/Dropbox/CIMIS API key')
+##api_key <- readLines('~/Dropbox/CIMIS API key')
 
 ## Define function
 
@@ -33,32 +33,37 @@ getCIMIS <- function(api_key, ...,
   fromJSON(doc, flatten = TRUE)$Data$Providers$Records[[1]]
 }
 
-CIMIS2Oryza <- function(api_key, year, station_nbr, ...)
+CIMIS2Oryza <- function(api_key, year, station_nbr, lat, long, ...)
 {
-  tmp <- getCIMIS(api_key, 
-                  start = paste0(year, '-01-01'), 
-                  end = paste0(year, '-12-31'), 
+  tmp <- getCIMIS(api_key,
+                  start = paste0(year, '-01-01'),
+                  end = paste0(year, '-12-31'),
                   unitOfMeasure = 'M',
                   targets = station_nbr, ...)
-  
+
   idx <- grep('[.]Qc$|[.]Unit$', colnames(tmp))
   tmp <- tmp[,-idx]
   x <- colnames(tmp)
-  
+
+  pwr <- getPOWER(lat = lat, lon = long, ys = year, ye = year)
+  tmp$weday <- tmp[,grep('Julian', x)]
+
+  tmp <- merge(pwr, tmp, all = TRUE)
+
   data <- data.frame(
     station_nbr = station_nbr,
     year = year,
-    doy = tmp[,grep('Julian', x)],
-    solrad = NA,
+    doy = tmp$weday,
+    solrad = tmp$srad * 1000,
     tmin = tmp[,grep('DayAirTmpMin', x)],
     tmax = tmp[,grep('DayAirTmpMax', x)],
     vp = tmp[,grep('DayVapPresAvg', x)],
     wind = tmp[,grep('DayWindSpdAvg', x)],
     precip = tmp[,grep('DayPrecip', x)])
-  
-  data <- as.data.frame(sapply(data, function(x) 
+
+  data <- as.data.frame(sapply(data, function(x)
     as.numeric(as.character(x))))
-  
+
   return(data)
 }
 
@@ -66,7 +71,7 @@ CIMIS2Oryza <- function(api_key, year, station_nbr, ...)
 get_station_info <- function(station_names){
   # Returns a comma separated list of station numbers
   # Given the station names
-  
+
   stations <- getURL('http://et.water.ca.gov/api/station')
   tmp <- fromJSON(stations)
   i <- which(tmp$Stations$Name %in% station_names)
@@ -78,7 +83,7 @@ get_station_info <- function(station_names){
     station_lat <- strsplit(station_lat, ' / ')[[1]][2]
     station_long <- strsplit(station_long, ' / ')[[1]][2]
     station_ele <- as.numeric(tmp$Stations$Elevation[j]) * 0.3048
-    
+
     list(station_name = station_nm,
          station_nbr = station_nbr,
          station_lat = station_lat,

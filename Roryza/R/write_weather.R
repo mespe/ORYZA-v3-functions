@@ -42,7 +42,7 @@ gen_path <- function(folder, prefix, dataframe)
 ##' @author Matthew Espe
 write_weather <- function(weather_data,
                           long, lat, ele = 0,
-                          header, file_path)
+                          header, file_name)
 {
     ff <- file(file_name, 'w')
     on.exit(close(ff))
@@ -66,7 +66,7 @@ write_weather <- function(weather_data,
 write_header <- function(
   template_file = '~/oryza_functions/Roryza/R/header_template.txt',
   ...)
-  
+
     {
     dots <- list(...)
     header_lines <- readLines(template_file)
