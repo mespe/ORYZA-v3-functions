@@ -3,6 +3,5 @@ Title: Roryza
 Description: Tools to process output files from Oryza(v3)
 Version: 0.1-0
 License: BSD
-Depends: RCurl, jsonlite, XML, rnoaa
 Author: Matt Espe
 Maintainer: Matt Espe <mespe@ucdavis.edu>

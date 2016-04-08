@@ -1,13 +1,4 @@
 export(get_pred_mat)
-export(POWER2ORYZA)
 export(edit_ORYZA_file)
-export(getPOWER)
 export(get_current_oryza)
-export(write_weather)
-#export(gen_header)
-export(write_header)
-export(heat_units)
 
-useDynLib(Roryza)
-
-#import(RCurl, jsonlite, XML)

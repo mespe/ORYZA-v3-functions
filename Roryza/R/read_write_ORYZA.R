@@ -127,7 +127,7 @@ get_pred_mat <- function(file_path, DAP = TRUE){
 
   tmp <- read_res()
   tmp <- split_res(tmp, 'V2')
-  tmp <- find_phen_pred(tmp, DAP=TRUE)
+  tmp <- find_phen_pred(tmp, DAP = DAP)
   yield <- read.table('op.dat', header = TRUE)$WRR14
 
   if(length(tmp[,1]) != length(yield)) {

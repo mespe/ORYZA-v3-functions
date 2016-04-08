@@ -24,3 +24,6 @@ get_current_oryza <-
     ll[grepl('^FILE', ll)]
   }
 
+.onAttach <- function(...){
+    packageStartupMessage("Testing")
+}
