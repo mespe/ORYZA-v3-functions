@@ -30,13 +30,15 @@ write_TX <- function(weather_data, year,
         year = year,
         day = as.numeric(format(dd$Date, '%j')),
         srad = as.numeric(pwr$srad) * 1000,
-        tmin = dd$Air.Temp.Min...C.,
-        tmax = dd$Air.Temp.Max...C.,
+        tmin = dd[,3],
+        tmax = dd[,2],
         ## Uses converstion formula from NOAA
-        vappre = ((sat_vp(dd$Air.Temp.Max...C.) + sat_vp(dd$Air.Temp.Min...C.))/2) * (((
-            dd$AirRH.Max.... + dd$AirRH.Min....)/200)),
-        wind = dd$WindSp..km.day.,
-        precip = dd$Rainfall..cm.)
+        vappre = ((sat_vp(dd[,2]) + sat_vp(dd[,3]))/2) * (((
+            dd[,7] + dd[,8])/200)),
+        ## convert from km/day to m/s
+        wind = dd$WindSp..km.day. * 0.01157,
+        ## convert to mm
+        precip = dd$Rainfall..cm. * 10)
 
  return(tmp)
 }

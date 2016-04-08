@@ -6,7 +6,7 @@ library(RCurl)
 library(jsonlite)
 
 ## Key is stored separate and not shared
-##api_key <- readLines('~/Dropbox/CIMIS API key')
+api_key <- readLines('~/Dropbox/CIMIS API key')
 
 ## Define function
 
@@ -49,7 +49,7 @@ CIMIS2Oryza <- function(api_key, year, station_nbr, lat, long, ...)
   tmp$weday <- tmp[,grep('Julian', x)]
 
   tmp <- merge(pwr, tmp, all = TRUE)
-
+  x <- colnames(tmp)
   data <- data.frame(
     station_nbr = station_nbr,
     year = year,
